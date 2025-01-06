@@ -1,6 +1,6 @@
-# replace-this-with-the-track-name language support for CodeMirror
+# JikiScript language support for CodeMirror
 
-This repo contains the grammar for the replace-this-with-the-track-name language.
+This repo contains the grammar for the JikiScript language.
 
 ## Prerequisites
 

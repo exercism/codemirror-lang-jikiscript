@@ -2,8 +2,8 @@ import { parser } from "./syntax.grammar";
 import { LRLanguage, LanguageSupport } from "@codemirror/language";
 import { styleTags, tags as t } from "@lezer/highlight";
 
-export const replace-this-with-the-track-slugLanguage = LRLanguage.define({
-  name: "replace-this-with-the-track-slug",
+export const jikiscriptLanguage = LRLanguage.define({
+  name: "jikiscript",
   parser: parser.configure({
     props: [
       styleTags({
@@ -28,6 +28,6 @@ export const replace-this-with-the-track-slugLanguage = LRLanguage.define({
   },
 });
 
-export function replace-this-with-the-track-slug() {
-  return new LanguageSupport(replace-this-with-the-track-slugLanguage);
+export function jikiscript() {
+  return new LanguageSupport(jikiscriptLanguage);
 }
