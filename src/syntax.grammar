@@ -1,69 +1,70 @@
-@top Program { program }
-program { (Comment | literal | UppercaseIdentifier | Keyword | LowercaseIdentifier | else)* }
+@top Program { statement* }
 
-// Supported literals are numbers and strings
-literal { Number | String }
+@skip { whitespace | LineComment }
 
-// All possible kinds of literal numbers in Gleam
-Number { Decimal | Hex | Octal | Binary | Float }
+statement {
+  expression |
+  Binding
+}
 
-// A string is composed of a pair of enclosing \" and an
-// optional body
-@skip {} { String { '"' stringBody? '"' } }
+expression {
+  Array |
+  String | 
+  Char | 
+  number |
+  Glyph |
+  Inline
+}
 
-// Gleam reserved keywords
-keyword<term> { @specialize<LowercaseIdentifier, term> }
-Keyword {
-    keyword<"assert">
-  | keyword<"case">
-  | keyword<"const">
-  | keyword<"external">
-  | keyword<"fn">
-  | keyword<"if">
-  | keyword<"import">
-  | keyword<"type">
-  | keyword<"let">
-  | keyword<"panic">
-  | keyword<"pub">
-  | keyword<"todo">
-  | keyword<"use">
-  | keyword<"opaque">
+number { Integer | Floating | Fraction | SpecialNumber }
+
+Char { hexChar | unicodeChar | escapeChar | char }
+
+Binding { Identifier "←" Signature? expression }
+
+Inline { "(" Signature? expression* ")" }
+
+@precedence {
+  // Define precedence if needed for underscore
+  underscore @left 
+}
+
+Array {
+  "[" expression* "]" |
+  "{" expression* "}" |
+  expression (!underscore "_" expression)+
 }
 
 @tokens {
-  @precedence {
-    "\""
-    Float Hex Octal Binary Decimal
-    UppercaseIdentifier
-    Comment
-    LowercaseIdentifier
-    else
-  }
+  whitespace { @whitespace+ }
+  digit { @digit }
+  letter { @asciiLetter }
+  hex { @digit | $[a-fA-F] }
 
-  // A Gleam lowercase identifier (variables, function names, ...)
-  LowercaseIdentifier { $[\_a-z] $[0-9a-zA-Z\_]* }
+  Integer { "¯"? digit+ (("e" | "E") ("+" | "-")? digit+)? }
+  Floating { "¯"? digit+ "." digit+ }
+  Fraction { "¯"? digit+ "/" "¯"? digit+ }
+  SpecialNumber { $[ηπτ∞] }
+  
+  hexChar { "@\\x" hex hex}
+  unicodeChar {"@\\u" (hex hex hex hex | "{" hex+ "}") }
+  escapeChar { "@\\" $[0nrtbfvs\\] }
+  char { "@" _ }
 
-  // A Gleam uppercase identifier (a type name, a constructor, ...)
-  UppercaseIdentifier { $[A-Z] $[0-9a-zA-Z]* }
+  Escape { "\\" _ }
+  String { quotedString | rawString }
+  quotedString { "$"? '"' (!["\\] | Escape)* '"'}
+  rawString { "$"? "$ " ![\n]*+ }
 
-  // Regexes (kind of) for Gleam different number literals
-  Float { "-"? $[0-9\_]+ "\." $[0-9\_]* ("e" "-"? $[0-9\_]+)? }
-  Hex { "-"? "0" $[xX] $[0-9a-fA-F\_]+ }
-  Decimal { "-"? $[0-9] $[0-9\_]* }
-  Octal { "-"? "0" $[oO] $[0-7\_]+ }
-  Binary { "-"? "0" $[bB] $[0-1\_]+ }
+  Glyph { $[◠⌵+⌝’⍤∠˜◡⋯∩□⊓⊸⍩⌈⑄⊛ℂ◇⊟◴∂♭⊙÷⍢↘.∵=⍖⬚⌕⊢¤:⌊∧⊃⋅≥>⊕∘⊗∫⍚⊂▽⊣⧻≤<ₙ⦷≍↥∊∈↧◿×¯¬≠⌅⤚⟜⤸⋕⊜⊡◌ⁿ⚂⇡/⍥☇↯⇌⍏↻⁅≡⊏△±∿⍆√\?\-⨬⊞↙⸮⍉◹⍣⧅°⍜◰⊚◫⤙] }
 
-  // A string body can be composed of anything except a " or an
-  // unescaped \. It can also contain an escape sequence
-  stringBody { (!["\\] | "\\n" | "\\r" | "\\t" | "\\\"")+ }
+  Identifier { letter+ ("_"+ digit+)? }
 
-  // Comments, for now there's no need to make a distinction
-  // between the different kinds of comments and the "//" prefix
-  // already catches all of them
-  Comment { "//" ![\n]* }
+  Signature { "|" digit+ ("." digit+)? }
 
-  // A fallback that matches any other character in case all
-  // else fails. Needed to get a nice output and avoid strange
-  // overlapping tokens!
-  else { _ }
+  @precedence { Identifier, Signature, Fraction, Floating, Integer, Glyph }
+
+  LineComment { "#" ![\n]* }
 }
+
+@detectDelim
