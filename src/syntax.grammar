@@ -45,9 +45,19 @@ expression {
 number { Integer | Floating }
 
 keyword<term> { @specialize[@name={term}]<Identifier, term> }
+Keyword {
+  keyword<"function"> |
+  keyword<"do"> |
+  keyword<"with"> |
+  keyword<"return"> |
+  keyword<"set"> |
+  keyword<"to"> |
+  keyword<"change"> |
+  keyword<"end">
+}
 
 @tokens {
-  Identifier { letter+ ((digit | letter)+)? }
+  Identifier { letter $[_a-zA-Z0-9]* }
   String { '"' (!["\\] | "\\" _)* '"' }
   Boolean { "true" | "false" }
   LineComment { "//" ![\n]* }
@@ -60,100 +70,8 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
   Floating { "-"? digit+ "." digit+ }
 
   @precedence { 
-    Boolean, Identifier, String, Floating, Integer 
+    Keyword, Boolean, Identifier, String, Floating, Integer 
   }
 }
 
 @detectDelim
-
-/*
-
-@skip { whitespace | LineComment }
-
-statement {
-  expression //|
-  // Binding
-}
-
-expression {
-  String | 
-  number //|
-  // Inline
-}
-
-
-number { Integer | Floating }
-
-// Inline { "(" Signature? expression* ")" }
-
-
-@tokens {
-  whitespace { @whitespace+ }
-  digit { @digit }
-
-  Integer { "-"? digit+ }
-  Floating { "-"? digit+ "." digit+ }
-
-  String { quotedString } //| rawString }
-  quotedString { "$"? '"' (!["\\] | Escape)* '"'}
-  Escape { "\\" _ }
-
-
-  LineComment { "//" ![\n]* }
-
-  @precedence { Identifier, Signature, Floating, Integer }
-}
-/*
-statement {
-  expression |
-  Binding
-}
-
-expression {
-  Array |
-  String | 
-  Char | 
-  number |
-  Glyph |
-  Inline
-}
-
-
-Char { hexChar | unicodeChar | escapeChar | char }
-
-Binding { Identifier "←" Signature? expression }
-
-
-@precedence {
-  // Define precedence if needed for underscore
-  underscore @left 
-}
-
-Array {
-  "[" expression* "]" |
-  "{" expression* "}" |
-  expression (!underscore "_" expression)+
-}
-
-@tokens {
-  letter { @asciiLetter }
-  hex { @digit | $[a-fA-F] }
-
-  Fraction { "¯"? digit+ "/" "¯"? digit+ }
-  SpecialNumber { $[ηπτ∞] }
-  
-  hexChar { "@\\x" hex hex}
-  unicodeChar {"@\\u" (hex hex hex hex | "{" hex+ "}") }
-  escapeChar { "@\\" $[0nrtbfvs\\] }
-  char { "@" _ }
-
-  rawString { "$"? "$ " ![\n]*+ }
-
-  Glyph { $[◠⌵+⌝’⍤∠˜◡⋯∩□⊓⊸⍩⌈⑄⊛ℂ◇⊟◴∂♭⊙÷⍢↘.∵=⍖⬚⌕⊢¤:⌊∧⊃⋅≥>⊕∘⊗∫⍚⊂▽⊣⧻≤<ₙ⦷≍↥∊∈↧◿×¯¬≠⌅⤚⟜⤸⋕⊜⊡◌ⁿ⚂⇡⍥☇↯⇌⍏↻⁅≡⊏△±∿⍆√\?\-⨬⊞↙⸮⍉◹⍣⧅°⍜◰⊚◫⤙] }
-
-  Signature { "|" digit+ ("." digit+)? }
-
-  @precedence { Identifier, Signature, Fraction, Floating, Integer, Glyph }
-
-}
-*/

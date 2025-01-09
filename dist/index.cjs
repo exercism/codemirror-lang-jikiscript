@@ -15,7 +15,7 @@ const parser = lr.LRParser.deserialize({
   maxTerm: 31,
   skippedNodes: [0,1],
   repeatNodeCount: 2,
-  tokenData: ")c~ReX^!dpq!drs#X|}$u}!O$z!P!Q%k!Q![%Q!c!}&Y#T#Y&Y#Y#Z&h#Z#h&Y#h#i(i#i#o&Y#y#z!d$f$g!d#BY#BZ!d$IS$I_!d$I|$JO!d$JT$JU!d$KV$KW!d&FU&FV!d~!iYj~X^!dpq!d#y#z!d$f$g!d#BY#BZ!d$IS$I_!d$I|$JO!d$JT$JU!d$KV$KW!d&FU&FV!d~#[VOr#Xrs#qs#O#X#O#P#v#P;'S#X;'S;=`$o<%lO#X~#vO[~~#yRO;'S#X;'S;=`$S;=`O#X~$VWOr#Xrs#qs#O#X#O#P#v#P;'S#X;'S;=`$o;=`<%l#X<%lO#X~$rP;=`<%l#X~$zOm~~$}P!Q![%Q~%VQ]~!O!P%]!Q![%Q~%`P!Q![%c~%hP^~!Q![%c~%nP!P!Q%q~%vSP~OY%qZ;'S%q;'S;=`&S<%lO%q~&VP;=`<%l%q~&_RS~!Q![&Y!c!}&Y#T#o&Y~&mSS~!Q![&Y!c!}&Y#T#U&y#U#o&Y~'OTS~!Q![&Y!c!}&Y#T#`&Y#`#a'_#a#o&Y~'dTS~!Q![&Y!c!}&Y#T#g&Y#g#h's#h#o&Y~'xTS~!Q![&Y!c!}&Y#T#X&Y#X#Y(X#Y#o&Y~(`RZ~S~!Q![&Y!c!}&Y#T#o&Y~(nTS~!Q![&Y!c!}&Y#T#f&Y#f#g(}#g#o&Y~)STS~!Q![&Y!c!}&Y#T#i&Y#i#j's#j#o&Y",
+  tokenData: "){~ReX^!dpq!drs#X|}$u}!O$z!P!Q%k!Q![%Q!c!}&Y#T#Y&Y#Y#Z&k#Z#h&Y#h#i({#i#o&Y#y#z!d$f$g!d#BY#BZ!d$IS$I_!d$I|$JO!d$JT$JU!d$KV$KW!d&FU&FV!d~!iYj~X^!dpq!d#y#z!d$f$g!d#BY#BZ!d$IS$I_!d$I|$JO!d$JT$JU!d$KV$KW!d&FU&FV!d~#[VOr#Xrs#qs#O#X#O#P#v#P;'S#X;'S;=`$o<%lO#X~#vO[~~#yRO;'S#X;'S;=`$S;=`O#X~$VWOr#Xrs#qs#O#X#O#P#v#P;'S#X;'S;=`$o;=`<%l#X<%lO#X~$rP;=`<%l#X~$zOm~~$}P!Q![%Q~%VQ]~!O!P%]!Q![%Q~%`P!Q![%c~%hP^~!Q![%c~%nP!P!Q%q~%vSP~OY%qZ;'S%q;'S;=`&S<%lO%q~&VP;=`<%l%q~&_SS~!Q![&Y!c!}&Y#R#S&Y#T#o&Y~&pTS~!Q![&Y!c!}&Y#R#S&Y#T#U'P#U#o&Y~'UUS~!Q![&Y!c!}&Y#R#S&Y#T#`&Y#`#a'h#a#o&Y~'mUS~!Q![&Y!c!}&Y#R#S&Y#T#g&Y#g#h(P#h#o&Y~(UUS~!Q![&Y!c!}&Y#R#S&Y#T#X&Y#X#Y(h#Y#o&Y~(oSZ~S~!Q![&Y!c!}&Y#R#S&Y#T#o&Y~)QUS~!Q![&Y!c!}&Y#R#S&Y#T#f&Y#f#g)d#g#o&Y~)iUS~!Q![&Y!c!}&Y#R#S&Y#T#i&Y#i#j(P#j#o&Y",
   tokenizers: [0],
   topRules: {"Program":[0,2]},
   specialized: [{term: 4, get: (value) => spec_Identifier[value] || -1}],
