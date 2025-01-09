@@ -1,32 +1,29 @@
-**PLEASE NOTE: These instructions are for Exercism Admins only. Maintainers should request that admins create a new analyzer for them. Please create a new topic on the [forum](https://forum.exercism.org).**
+# JikiScript language support for CodeMirror
 
----
+This repo contains the grammar for the JikiScript language.
 
-# Exercism Analyzer Template
+## Prerequisites
 
-This repository is a [template repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-template-repository) for creating a [CodeMirror grammar][grammar] for [Exercism][exercism] tracks.
+- [Bun](https://bun.sh/)
 
-To create a new CodeMirror grammar, use the `bin/bootstrap.sh` script:
+## Setup
 
-```shell
-LANGUAGE="<LANGUAGE NAME>" SLUG="<LANGUAGE_SLUG>" bin/bootstrap.sh
-```
+Run `bun install` to install all dependencies.
 
-For example:
+## Developing
 
-```shell
-LANGUAGE="Common Lisp" SLUG="common-lisp" bin/bootstrap.sh
-```
+To help with development, run `bun run dev`.
+This will start a [Vite](https://vite.dev/) dev server (usually at http://localhost:5173/) that renders the `index.html` file.
+The `#editor` element gets populated with some sample source code of your choosing and then it will get transformed by the grammar defined in `src/syntax.grammar`.
+Any changes to the grammar will auto-refresh the dev server's rendered contents.
 
-This will automatically:
+## Testing
 
-1. Create the codemirror grammar repository
-1. Setup access for the `maintainers-admin`, `guardians` and track team
-1. Setup branch protection rules
-1. Give this repository access to the secrets required to deploy the image
-1. Disable merge and rebase commits
+The `test/cases` directory contains the tests files.
+Run `bun test` to run these tests.
 
-## Deployment
+Note: test (case) files should be relatively small and focus on a single aspect of a grammar.
 
-After the grammar has been published to NPM, follow the
-[enable language instructions](https://exercism.org/docs/building/tracks/new/syntax-highlighting/dynamic#h-enable-language).
+## Publishing
+
+Run `bun publish` to publish the plugin to NPM.

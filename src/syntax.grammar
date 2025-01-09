@@ -3,6 +3,108 @@
 @skip { whitespace | LineComment }
 
 statement {
+  FunctionDefinition |
+  VariableDefinition |
+  VariableReassignment |
+  ReturnStatement |
+  EndStatement |
+  ExpressionStatement { expression }
+}
+
+FunctionDefinition {
+  keyword<"function"> Identifier keyword<"do"> |
+  keyword<"function"> Identifier keyword<"with"> argumentList keyword<"do">
+}
+
+ReturnStatement {
+  keyword<"return"> (expression)
+}
+
+VariableDefinition {
+  keyword<"set"> Identifier keyword<"to"> expression
+}
+VariableReassignment {
+  keyword<"change"> Identifier keyword<"to"> expression
+}
+
+EndStatement {
+  keyword<"end">
+}
+
+argumentList {
+  Identifier ("," Identifier)*
+}
+
+expression {
+  Identifier |
+  Boolean |
+  String |
+  number
+}
+
+number { Integer | Floating }
+
+keyword<term> { @specialize[@name={term}]<Identifier, term> }
+
+@tokens {
+  Identifier { letter+ ((digit | letter)+)? }
+  String { '"' (!["\\] | "\\" _)* '"' }
+  Boolean { "true" | "false" }
+  LineComment { "//" ![\n]* }
+  whitespace { @whitespace+ }
+
+  letter { @asciiLetter }
+  digit { @digit }
+
+  Integer { "-"? digit+ }
+  Floating { "-"? digit+ "." digit+ }
+
+  @precedence { 
+    Boolean, Identifier, String, Floating, Integer 
+  }
+}
+
+@detectDelim
+
+/*
+
+@skip { whitespace | LineComment }
+
+statement {
+  expression //|
+  // Binding
+}
+
+expression {
+  String | 
+  number //|
+  // Inline
+}
+
+
+number { Integer | Floating }
+
+// Inline { "(" Signature? expression* ")" }
+
+
+@tokens {
+  whitespace { @whitespace+ }
+  digit { @digit }
+
+  Integer { "-"? digit+ }
+  Floating { "-"? digit+ "." digit+ }
+
+  String { quotedString } //| rawString }
+  quotedString { "$"? '"' (!["\\] | Escape)* '"'}
+  Escape { "\\" _ }
+
+
+  LineComment { "//" ![\n]* }
+
+  @precedence { Identifier, Signature, Floating, Integer }
+}
+/*
+statement {
   expression |
   Binding
 }
@@ -16,13 +118,11 @@ expression {
   Inline
 }
 
-number { Integer | Floating | Fraction | SpecialNumber }
 
 Char { hexChar | unicodeChar | escapeChar | char }
 
 Binding { Identifier "←" Signature? expression }
 
-Inline { "(" Signature? expression* ")" }
 
 @precedence {
   // Define precedence if needed for underscore
@@ -36,13 +136,9 @@ Array {
 }
 
 @tokens {
-  whitespace { @whitespace+ }
-  digit { @digit }
   letter { @asciiLetter }
   hex { @digit | $[a-fA-F] }
 
-  Integer { "¯"? digit+ (("e" | "E") ("+" | "-")? digit+)? }
-  Floating { "¯"? digit+ "." digit+ }
   Fraction { "¯"? digit+ "/" "¯"? digit+ }
   SpecialNumber { $[ηπτ∞] }
   
@@ -51,20 +147,13 @@ Array {
   escapeChar { "@\\" $[0nrtbfvs\\] }
   char { "@" _ }
 
-  Escape { "\\" _ }
-  String { quotedString | rawString }
-  quotedString { "$"? '"' (!["\\] | Escape)* '"'}
   rawString { "$"? "$ " ![\n]*+ }
 
-  Glyph { $[◠⌵+⌝’⍤∠˜◡⋯∩□⊓⊸⍩⌈⑄⊛ℂ◇⊟◴∂♭⊙÷⍢↘.∵=⍖⬚⌕⊢¤:⌊∧⊃⋅≥>⊕∘⊗∫⍚⊂▽⊣⧻≤<ₙ⦷≍↥∊∈↧◿×¯¬≠⌅⤚⟜⤸⋕⊜⊡◌ⁿ⚂⇡/⍥☇↯⇌⍏↻⁅≡⊏△±∿⍆√\?\-⨬⊞↙⸮⍉◹⍣⧅°⍜◰⊚◫⤙] }
-
-  Identifier { letter+ ("_"+ digit+)? }
+  Glyph { $[◠⌵+⌝’⍤∠˜◡⋯∩□⊓⊸⍩⌈⑄⊛ℂ◇⊟◴∂♭⊙÷⍢↘.∵=⍖⬚⌕⊢¤:⌊∧⊃⋅≥>⊕∘⊗∫⍚⊂▽⊣⧻≤<ₙ⦷≍↥∊∈↧◿×¯¬≠⌅⤚⟜⤸⋕⊜⊡◌ⁿ⚂⇡⍥☇↯⇌⍏↻⁅≡⊏△±∿⍆√\?\-⨬⊞↙⸮⍉◹⍣⧅°⍜◰⊚◫⤙] }
 
   Signature { "|" digit+ ("." digit+)? }
 
   @precedence { Identifier, Signature, Fraction, Floating, Integer, Glyph }
 
-  LineComment { "#" ![\n]* }
 }
-
-@detectDelim
+*/
