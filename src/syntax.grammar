@@ -45,7 +45,7 @@ expression {
 number { Integer | Floating }
 
 keyword<term> { @specialize[@name={term}]<Identifier, term> }
-Keyword {
+/*Keyword {
   keyword<"function"> |
   keyword<"do"> |
   keyword<"with"> |
@@ -54,7 +54,7 @@ Keyword {
   keyword<"to"> |
   keyword<"change"> |
   keyword<"end">
-}
+}*/
 
 @tokens {
   Identifier { letter $[_a-zA-Z0-9]* }
@@ -70,7 +70,7 @@ Keyword {
   Floating { "-"? digit+ "." digit+ }
 
   @precedence { 
-    Keyword, Boolean, Identifier, String, Floating, Integer 
+    Boolean, Identifier, String, Floating, Integer 
   }
 }
 
