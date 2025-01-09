@@ -1,7 +1,7 @@
 {
-  "name": "@exercism/codemirror-lang-replace-this-with-the-track-slug",
+  "name": "@exercism/codemirror-lang-jikiscript",
   "version": "0.0.1",
-  "description": "replace-this-with-the-track-name language support for CodeMirror",
+  "description": "JikiScript language support for CodeMirror",
   "scripts": {
     "prepare": "bun run rollup -c",
     "dev": "vite"
@@ -25,14 +25,14 @@
   },
   "devDependencies": {
     "@lezer/generator": "^1.7.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/bun": "^1.1.14",
     "codemirror": "^6.0.1",
     "rollup": "^4.18.0",
     "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-ts": "^3.4.5",
     "typescript": "^5.4.5",
     "unplugin-lezer": "^1.0.1",
-    "vite": "^5.4.11"
+    "vite": "^6.0.7"
   },
   "license": "MIT"
 }

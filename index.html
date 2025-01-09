@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>replace-this-with-the-track-name playground</title>
+    <title>JikiScript playground</title>
   </head>
   <body>
     <div id="editor"></div>
     <script type="module">
             import { EditorView, basicSetup } from "codemirror";
-            import { replace-this-with-the-track-slug } from "./src/index.ts";
+            import { jikiscript } from "./src/index.ts";
 
             const doc = `# Numbers
       5 6e3 0 3.2 3/4 ¯2/¯4 ¯1.1 η π τ ∞
@@ -54,7 +54,7 @@
 
             new EditorView({
               doc: doc,
-              extensions: [basicSetup, replace-this-with-the-track-slug()],
+              extensions: [basicSetup, jikiscript()],
               parent: document.querySelector("#editor"),
             });
     </script>
