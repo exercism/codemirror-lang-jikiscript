@@ -26,7 +26,7 @@ RepeatStatement {
 }
 
 RepeatUntilGameOverStatement {
-  keyword<"repeat"> Body
+  keyword<"repeat_until_game_over"> Body
 }
 
 IfStatement {
@@ -37,7 +37,6 @@ IfStatement {
 ElseStatement {
   keyword<"else"> Body
 }
-
 
 Body {
   keyword<"do"> statement* keyword<"end">

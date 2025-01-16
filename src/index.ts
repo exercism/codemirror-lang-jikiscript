@@ -3,6 +3,10 @@ import { LRLanguage, LanguageSupport } from "@codemirror/language";
 import { indentNodeProp, foldNodeProp, foldInside  } from "@codemirror/language";
 import { styleTags, tags as t } from "@lezer/highlight";
 
+
+const addIndent = (context) => context.lineIndent(context.node.from) + context.unit // Indent for function body
+const removeIndent = (context) => context.lineIndent(context.node.from)
+
 export const jikiscriptLanguage = LRLanguage.define({
   name: "jikiscript",
   parser: parser.configure({
@@ -35,18 +39,13 @@ export const jikiscriptLanguage = LRLanguage.define({
       }),
 
       indentNodeProp.add({
-        FunctionDefinition: context => {
-          return context.lineIndent(context.node.from) + context.unit // Indent for function body
-        },
-        IfStatement: context => {
-          return context.lineIndent(context.node.from) + context.unit // Indent for function body
-        },
-        ElseStatement: context => {
-          return context.lineIndent(context.node.from) + context.unit // Indent for function body
-        },
-        statement: context =>
-          context.lineIndent(context.node.from) + context.unit, // Indent for nested statements
-        EndStatement: context => context.lineIndent(context.node.from), // Reset for end statements
+        FunctionDefinition: addIndent,
+        IfStatement: addIndent,
+        ElseStatement: addIndent,
+        RepeatStatement: addIndent,
+        RepeatUntilGameOverStatement: addIndent,
+        statement: addIndent, // Indent for nested statements
+        EndStatement: removeIndent, // Reset for end statements
       }),
 
       foldNodeProp.add({
