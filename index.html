@@ -36,6 +36,33 @@ set x to 5
 change x to 3
 set something1234 to "Hello, world!"
 
+// Repeat block
+repeat 10 times do
+  something()
+end
+
+// Repeat_until_game_over block
+repeat_until_game_over do
+  something()
+end
+
+// If statement
+if something is true do
+  something()
+end
+
+// Else statement
+if something is true do
+else do
+  something()
+end
+
+// Else if statement
+if something is true do
+else if something is false do
+  something()
+end
+
 // Function definitions
 function foobar do
   return "foobar"

@@ -6,14 +6,41 @@ statement {
   FunctionDefinition |
   VariableDefinition |
   VariableReassignment |
+  RepeatStatement |
+  RepeatUntilGameOverStatement |
+  IfStatement |
   ReturnStatement |
-  EndStatement |
   ExpressionStatement { expression }
 }
 
 FunctionDefinition {
-  keyword<"function"> Identifier keyword<"do"> |
-  keyword<"function"> Identifier keyword<"with"> argumentList keyword<"do">
+  keyword<"function"> Identifier Body |
+  keyword<"function"> Identifier keyword<"with"> argumentList Body
+}
+
+argumentList {
+  Identifier ("," Identifier)*
+}
+RepeatStatement {
+  keyword<"repeat"> expression keyword<"times"> Body
+}
+
+RepeatUntilGameOverStatement {
+  keyword<"repeat"> Body
+}
+
+IfStatement {
+  keyword<"if"> expression keyword<"do"> statement* ElseStatement | 
+  keyword<"if"> expression Body
+}
+
+ElseStatement {
+  keyword<"else"> Body
+}
+
+
+Body {
+  keyword<"do"> statement* keyword<"end">
 }
 
 ReturnStatement {
@@ -27,19 +54,35 @@ VariableReassignment {
   keyword<"change"> Identifier keyword<"to"> expression
 }
 
-EndStatement {
-  keyword<"end">
-}
-
-argumentList {
-  Identifier ("," Identifier)*
-}
-
-expression {
+PrimaryExpression {
   Identifier |
   Boolean |
   String |
-  number
+  number |
+  "(" expression ")"
+}
+
+RelationalExpression {
+  PrimaryExpression keyword<">"> PrimaryExpression |
+  PrimaryExpression keyword<"<"> PrimaryExpression |
+  PrimaryExpression keyword<">="> PrimaryExpression |
+  PrimaryExpression keyword<"<="> PrimaryExpression
+}
+
+EqualityExpression {
+  PrimaryExpression keyword<"is"> PrimaryExpression |
+  PrimaryExpression keyword<"equals"> PrimaryExpression |
+  PrimaryExpression keyword<"=="> PrimaryExpression
+}
+
+BinaryExpression {
+  EqualityExpression |
+  RelationalExpression
+}
+
+expression {
+  BinaryExpression |
+  PrimaryExpression
 }
 
 number { Integer | Floating }

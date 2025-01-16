@@ -13,8 +13,13 @@ export const jikiscriptLanguage = LRLanguage.define({
         LineComment: t.lineComment,
         Integer: t.number,
         Floating: t.float,
-        "function set change": t.definitionKeyword,
-        "with do to return end": t.keyword,
+        "do end": t.keyword,
+        "set change to": t.keyword,
+        "function with": t.definitionKeyword,
+        "repeat repeat_until_game_over times": t.keyword,
+        "if else": t.keyword,
+        "is equals": t.keyword,
+        "return": t.keyword,
         Identifier: t.variableName,
         ArgumentList: t.variableName,
         "( )": t.paren
@@ -31,8 +36,12 @@ export const jikiscriptLanguage = LRLanguage.define({
 
       indentNodeProp.add({
         FunctionDefinition: context => {
-          console.log("JHERE");
-          console.log(context.unit)
+          return context.lineIndent(context.node.from) + context.unit // Indent for function body
+        },
+        IfStatement: context => {
+          return context.lineIndent(context.node.from) + context.unit // Indent for function body
+        },
+        ElseStatement: context => {
           return context.lineIndent(context.node.from) + context.unit // Indent for function body
         },
         statement: context =>
@@ -42,6 +51,7 @@ export const jikiscriptLanguage = LRLanguage.define({
 
       foldNodeProp.add({
         FunctionDefinition: foldInside, // Allow folding of function blocks
+        IfStatement: foldInside, // Allow folding of function blocks
       }),
     ],
   }),
