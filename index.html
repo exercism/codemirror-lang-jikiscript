@@ -111,16 +111,20 @@ function foobar with arg1, arg2 do
 end
 `;
 
+      //const doc2 = `set foo to (a + b * (5))`;
+      const doc2 = `set foo to 2 * (( (a + b) * (c - d) ) + max( (e + f), (g - h) ))`
+
       const view = new EditorView({
-        doc: doc,
+        doc: doc2,
         extensions: [
           basicSetup,
           jikiscript(),
           colorScheme,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
+              logSyntaxTree(view);
               printSyntaxTree(update.state);
-              // console.log(syntaxTree(update.state));
+              console.log(syntaxTree(update.state));
             }
           }),
         ],
@@ -146,14 +150,14 @@ end
         console.log(output);
       }
 
-      //   function logSyntaxTree(view) {
-      //   const cursor = syntaxTree(view.state).cursor();
-      //   do {
-      //     console.log("Node:", cursor.name, "from:", cursor.from, "to:", cursor.to);
-      //   } while (cursor.next());
-      // }
+        function logSyntaxTree(view) {
+        const cursor = syntaxTree(view.state).cursor();
+        do {
+          console.log("Node:", cursor.name, "from:", cursor.from, "to:", cursor.to);
+        } while (cursor.next());
+      }
 
-      // logSyntaxTree(view);
+      logSyntaxTree(view);
     </script>
   </body>
 </html>

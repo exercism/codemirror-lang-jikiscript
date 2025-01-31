@@ -1,4 +1,4 @@
-@top Program { newLineDelimitedStatement* }
+@top Program { newLineDelimitedStatement* statement }
 
 @skip { " " | LineComment }
 
@@ -76,21 +76,21 @@ GroupingExpression {
 
 
 RelationalExpression {
-  PrimaryExpression keyword<">"> PrimaryExpression |
-  PrimaryExpression keyword<"<"> PrimaryExpression |
-  PrimaryExpression keyword<">="> PrimaryExpression |
-  PrimaryExpression keyword<"<="> PrimaryExpression |
-  PrimaryExpression keyword<"*"> PrimaryExpression | 
-  PrimaryExpression keyword<"+"> PrimaryExpression | 
-  PrimaryExpression keyword<"/"> PrimaryExpression | 
-  PrimaryExpression keyword<"-"> PrimaryExpression | 
-  PrimaryExpression keyword<"%"> PrimaryExpression 
+  PrimaryExpression ">" PrimaryExpression |
+  PrimaryExpression "<" PrimaryExpression |
+  PrimaryExpression ">=" PrimaryExpression |
+  PrimaryExpression "<=" PrimaryExpression |
+  PrimaryExpression "*" PrimaryExpression | 
+  PrimaryExpression "+" PrimaryExpression | 
+  // PrimaryExpression "/" PrimaryExpression | 
+  PrimaryExpression "-" PrimaryExpression | 
+  PrimaryExpression "%" PrimaryExpression 
 }
 
 EqualityExpression {
   PrimaryExpression keyword<"is"> PrimaryExpression |
   PrimaryExpression keyword<"equals"> PrimaryExpression |
-  PrimaryExpression keyword<"=="> PrimaryExpression
+  PrimaryExpression "==" PrimaryExpression
 }
 
 BinaryExpression {
