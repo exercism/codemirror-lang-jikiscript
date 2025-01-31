@@ -1,10 +1,11 @@
 import { parser } from "./syntax.grammar";
 import { LRLanguage, LanguageSupport } from "@codemirror/language";
-import { indentNodeProp, foldNodeProp, foldInside  } from "@codemirror/language";
+import { indentNodeProp, foldNodeProp, foldInside } from "@codemirror/language";
 import { styleTags, tags as t } from "@lezer/highlight";
 
-const addIndent = (context) => context.lineIndent(context.node.from) + context.unit // Indent for function body
-const removeIndent = (context) => context.lineIndent(context.node.from)
+const addIndent = (context: any) =>
+  context.lineIndent(context.node.from) + context.unit; // Indent for function body
+const removeIndent = (context: any) => context.lineIndent(context.node.from);
 
 export const jikiscriptLanguage = LRLanguage.define({
   name: "jikiscript",
@@ -23,10 +24,10 @@ export const jikiscriptLanguage = LRLanguage.define({
         "repeat repeat_until_game_over times": t.keyword,
         "if else": t.keyword,
         "is equals": t.keyword,
-        "return": t.keyword,
+        return: t.keyword,
         Identifier: t.variableName,
         ArgumentList: t.variableName,
-        "( )": t.paren
+        "( )": t.paren,
 
         /*
         "( )": t.paren,
@@ -63,3 +64,10 @@ export const jikiscriptLanguage = LRLanguage.define({
 export function jikiscript() {
   return new LanguageSupport(jikiscriptLanguage);
 }
+
+export const jikiscriptStrict = LRLanguage.define({
+  name: "jikiscriptStrict",
+  parser: parser.configure({
+    strict: true,
+  }),
+});

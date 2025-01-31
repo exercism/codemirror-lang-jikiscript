@@ -9,7 +9,7 @@
     <div id="editor"></div>
     <script type="module">
       import { EditorView, basicSetup } from "codemirror";
-      import { jikiscript } from "./src/index.ts";
+      import { jikiscript, jikiscriptStrict} from "./src/index.ts";
       import { colorScheme } from "./src/create-theme/colorScheme";
       import { syntaxTree } from "@codemirror/language";
 
@@ -116,7 +116,7 @@ end
 `;
 
       //const doc2 = `set foo to (a + b * (5))`;
-      const doc2 = `set foo to 2 * (( (a + b) * (c - d) ) + max( (e + f), (g - h) ))`
+      const doc2 = `set foo to 2 * (( (a + b) * (c - d) ) + max( (e + f), (g - h) ))`;
 
       const view = new EditorView({
         doc: doc,
@@ -126,9 +126,17 @@ end
           colorScheme,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
-              logSyntaxTree(view);
-              printSyntaxTree(update.state);
-              console.log(syntaxTree(update.state));
+              try {
+                const strictTree = jikiscriptStrict.parser.parse(
+                  update.state.doc.toString()
+                );
+                console.log("Strict parsing successful:", strictTree);
+              } catch (error) {
+                console.error("Strict parsing error:", error);
+              }
+              // logSyntaxTree(view);
+              // printSyntaxTree(update.state);
+              // console.log(syntaxTree(update.state));
             }
           }),
         ],
@@ -154,14 +162,14 @@ end
         console.log(output);
       }
 
-        function logSyntaxTree(view) {
+      function logSyntaxTree(view) {
         const cursor = syntaxTree(view.state).cursor();
         do {
           console.log("Node:", cursor.name, "from:", cursor.from, "to:", cursor.to);
         } while (cursor.next());
       }
 
-      logSyntaxTree(view);
+      // logSyntaxTree(view);
     </script>
   </body>
 </html>
