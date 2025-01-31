@@ -119,12 +119,32 @@ end
           colorScheme,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
-              console.log(syntaxTree(update.state));
+              printSyntaxTree(update.state);
+              // console.log(syntaxTree(update.state));
             }
           }),
         ],
         parent: document.querySelector("#editor"),
       });
+
+      function posToLineCol(state, pos) {
+        const line = state.doc.lineAt(pos);
+        return `L${line.number}:C${pos - line.from + 1}`;
+      }
+
+      function printSyntaxTree(state) {
+        const tree = syntaxTree(state);
+        let output = "";
+
+        tree.cursor().iterate((node) => {
+          const indent = "  ".repeat(node.depth);
+          const from = posToLineCol(state, node.from);
+          const to = posToLineCol(state, node.to);
+          output += `${indent}- ${node.name} [${from} -> ${to}]\n`;
+        });
+
+        console.log(output);
+      }
 
       //   function logSyntaxTree(view) {
       //   const cursor = syntaxTree(view.state).cursor();
