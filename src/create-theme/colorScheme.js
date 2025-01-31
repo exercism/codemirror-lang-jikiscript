@@ -15,57 +15,81 @@ export const colorScheme = createTheme({
   },
   styles: [
     {
-      tag: t.comment,
-      color: '#818B94',
+      tag: t.string,
+      color: '#AA0000',
+    },
+    {
+      tag: t.bool,
+      color: '#00AA00',
+    },
+    {
+      tag: t.lineComment,
+      color: '#cccccc',
+    },
+    {
+      tag: t.number,
+      color: '#AA0000',
       fontStyle: 'italic',
     },
     {
-      tag: [t.variableName, t.propertyName, t.attributeName, t.regexp],
-      color: '#019da4',
+      tag: t.float,
+      color: '#00AA00',
+      fontStyle: 'italic',
     },
     {
-      tag: [t.paren, t.brace],
-      color: '#8A99A6',
-      fontWeight: 600,
+      tag: t.controlKeyword,
+      color: '#0000AA',
+      fontStyle: 'italic',
+      fontWeight: 'bold',
     },
     {
-      tag: [t.number, t.bool, t.null],
-      color: 'green',
-    },
-    {
-      tag: [t.className, t.typeName, t.definition(t.typeName)],
-      color: '#C99E00',
-    },
-    {
-      tag: [t.string, t.special(t.brace)],
-      color: 'red',
-    },
-    {
-      tag: t.operator,
-      color: '#3E999F',
-    },
-    {
-      tag: [t.definition(t.propertyName), t.function(t.variableName)],
-      color: '#0081fc',
+      tag: t.definitionKeyword,
+      color: '#AAAA00',
+      fontWeight: 'bold',
     },
     {
       tag: t.keyword,
-      color: 'blue',
+      color: '#AA00AA',
+      fontWeight: 'bold',
     },
     {
-      tag: t.operatorKeyword,
-      color: '#73abeb',
+      tag: t.logicOperator,
+      color: '#00AAAA',
+        border: '1px solid #ff0000',
     },
+      {
+        tag: t.arithmeticOperator,
+        color: '#AAAA00',
+      fontStyle: 'italic',
+        border: '1px solid #ff0000',
+      },
+      {
+        tag: t.operator,
+        color: '#AA00AA',
+      fontStyle: 'italic',
+        border: '1px solid #ff0000',
+      },
+      {
+        tag: t.variableName,
+        color: '#00AAAA',
+      fontStyle: 'italic',
+      },
+      {
+        tag: t.paren,
+        color: '#00ff00',
+        border: '1px solid #0000ff',
+      },
+      {
+        tag: t.squareBracket,
+        color: '#ff0000',
+        border: '1px solid #0000ff',
+      },
+      {
+        tag: t.compareOperator,
+        color: '#0000AA',
+        border: '1px solid #ff0000',
+      },
+      
 
-    {
-      tag: t.controlKeyword,
-      color: '#A626A4',
-      fontWeight: 500,
-    },
-
-    {
-      tag: t.derefOperator,
-      color: '#4D4D4C',
-    },
   ],
 })
