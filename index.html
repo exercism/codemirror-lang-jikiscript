@@ -15,23 +15,28 @@
 
       const doc = `
 // A comment
-10 // Postfix comment
+set foo to 10 // Postfix comment
 
 // Numbers
-5 0 3.2 -5 -0 -3.2
+set foo to 5
+set foo to 0 
+set foo to 3.2 
+set foo to -5 
+set foo to -0 
+set foo to -3.2
 
 // Boolean
-true 
-false
+set foo to true 
+set foo to false
 
 // Strings
-""
-"Hello, world!"
-"Hello,\\sworld!"
-"Hello, \\"world\\"!"
+set foo to ""
+set foo to "Hello, world!"
+set foo to "Hello,\\sworld!"
+set foo to "Hello, \\"world\\"!"
 
 // String Concatenation
-"Hello, " + "world!"
+set foo to "Hello, " + "world!"
 
 // parenthesis matching
 set foo to 5 + 3
@@ -59,7 +64,6 @@ set foo to 2 * (( (a + b) * (c - d) ) + max( (e / f), (g - h) ))
 // Function calls
 something()
 something(1, true, "foo")
-(something())
 
 // Variable setting
 set x to 5
@@ -115,7 +119,7 @@ end
       const doc2 = `set foo to 2 * (( (a + b) * (c - d) ) + max( (e + f), (g - h) ))`
 
       const view = new EditorView({
-        doc: doc2,
+        doc: doc,
         extensions: [
           basicSetup,
           jikiscript(),

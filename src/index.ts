@@ -9,7 +9,7 @@ const removeIndent = (context) => context.lineIndent(context.node.from)
 export const jikiscriptLanguage = LRLanguage.define({
   name: "jikiscript",
   parser: parser.configure({
-    strict: true,
+    strict: false, // Toggle for sanity!
     props: [
       styleTags({
         String: t.string,

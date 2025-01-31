@@ -1,6 +1,10 @@
-@top Program { newLineDelimitedStatement* statement }
+@top Program { newLineDelimitedStatementOrNewline* statement? }
 
 @skip { " " | LineComment }
+
+newLineDelimitedStatementOrNewline {
+  newLineDelimitedStatement | newLine
+}
 
 newLine { "\n" }
 newLineDelimitedStatement { statement newLine }
@@ -33,16 +37,20 @@ RepeatUntilGameOverStatement {
 }
 
 IfStatement {
-  keyword<"if"> Expression keyword<"do"> statement* ElseStatement | 
-  keyword<"if"> Expression Body
+  // keyword<"if"> Expression keyword<"do"> statement* ElseStatement | 
+  keyword<"if"> Expression (IfElseBody | Body)
 }
 
 ElseStatement {
   keyword<"else"> Body
 }
 
+IfElseBody {
+  keyword<"do"> newLine newLineDelimitedStatement* keyword<"else"> (Body | IfStatement)
+}
+
 Body {
-  keyword<"do"> statement* keyword<"end">
+  keyword<"do"> newLine newLineDelimitedStatement* keyword<"end">
 }
 
 ReturnStatement {
@@ -74,17 +82,16 @@ GroupingExpression {
   "(" Expression ")"
 }
 
-
 RelationalExpression {
-  PrimaryExpression operator<">"> PrimaryExpression |
-  PrimaryExpression operator<"<"> PrimaryExpression |
-  PrimaryExpression operator<">="> PrimaryExpression |
-  PrimaryExpression operator<"<="> PrimaryExpression |
-  PrimaryExpression operator<"*"> PrimaryExpression | 
-  PrimaryExpression operator<"+"> PrimaryExpression | 
-  PrimaryExpression operator<"/"> PrimaryExpression | 
-  PrimaryExpression operator<"-"> PrimaryExpression | 
-  PrimaryExpression operator<"%"> PrimaryExpression 
+  PrimaryExpression operator<">"> Expression |
+  PrimaryExpression operator<"<"> Expression |
+  PrimaryExpression operator<">="> Expression |
+  PrimaryExpression operator<"<="> Expression |
+  PrimaryExpression operator<"*"> Expression | 
+  PrimaryExpression operator<"+"> Expression | 
+  PrimaryExpression operator<"/"> Expression | 
+  PrimaryExpression operator<"-"> Expression | 
+  PrimaryExpression operator<"%"> Expression 
 }
 
 EqualityExpression {
@@ -135,7 +142,7 @@ operator<term> { @specialize[@name={term}]<Symbol, term> }
   Floating { "-"? digit+ "." digit+ }
 
   @precedence { 
-    LineComment, Symbol, Boolean, Identifier, String, Floating, Integer
+    LineComment,Floating, Integer, Symbol, Boolean, Identifier, String
   }
 }
 
