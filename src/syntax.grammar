@@ -18,10 +18,10 @@ statement {
 
 FunctionDefinition {
   keyword<"function"> Identifier Body |
-  keyword<"function"> Identifier keyword<"with"> argumentList Body
+  keyword<"function"> Identifier keyword<"with"> parameterList Body
 }
 
-argumentList {
+parameterList {
   Identifier ("," Identifier)*
 }
 RepeatStatement {
@@ -99,9 +99,9 @@ BinaryExpression {
 }
 
 CallExpression {
-  Identifier "(" parameterList? ")"
+  Identifier "(" argumentList? ")"
 }
-parameterList {
+argumentList {
   Expression ("," Expression)*
 }
 
