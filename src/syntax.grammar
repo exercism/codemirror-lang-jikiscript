@@ -76,21 +76,21 @@ GroupingExpression {
 
 
 RelationalExpression {
-  PrimaryExpression ">" PrimaryExpression |
-  PrimaryExpression "<" PrimaryExpression |
-  PrimaryExpression ">=" PrimaryExpression |
-  PrimaryExpression "<=" PrimaryExpression |
-  PrimaryExpression "*" PrimaryExpression | 
-  PrimaryExpression "+" PrimaryExpression | 
-  // PrimaryExpression "/" PrimaryExpression | 
-  PrimaryExpression "-" PrimaryExpression | 
-  PrimaryExpression "%" PrimaryExpression 
+  PrimaryExpression operator<">"> PrimaryExpression |
+  PrimaryExpression operator<"<"> PrimaryExpression |
+  PrimaryExpression operator<">="> PrimaryExpression |
+  PrimaryExpression operator<"<="> PrimaryExpression |
+  PrimaryExpression operator<"*"> PrimaryExpression | 
+  PrimaryExpression operator<"+"> PrimaryExpression | 
+  PrimaryExpression operator<"/"> PrimaryExpression | 
+  PrimaryExpression operator<"-"> PrimaryExpression | 
+  PrimaryExpression operator<"%"> PrimaryExpression 
 }
 
 EqualityExpression {
   PrimaryExpression keyword<"is"> PrimaryExpression |
   PrimaryExpression keyword<"equals"> PrimaryExpression |
-  PrimaryExpression "==" PrimaryExpression
+  PrimaryExpression operator<"=="> PrimaryExpression
 }
 
 BinaryExpression {
@@ -109,6 +109,7 @@ argumentList {
 number { Integer | Floating }
 
 keyword<term> { @specialize[@name={term}]<Identifier, term> }
+operator<term> { @specialize[@name={term}]<Symbol, term> }
 /*Keyword {
   keyword<"function"> |
   keyword<"do"> |
@@ -122,6 +123,7 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
 
 @tokens {
   Identifier { letter $[_a-zA-Z0-9]* }
+  Symbol { $[+\-\*\/><=]+ }
   String { '"' (!["\\] | "\\" _)* '"' }
   Boolean { "true" | "false" }
   LineComment { "//" ![\n]* }
@@ -133,7 +135,7 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
   Floating { "-"? digit+ "." digit+ }
 
   @precedence { 
-    Boolean, Identifier, String, Floating, Integer 
+    LineComment, Symbol, Boolean, Identifier, String, Floating, Integer
   }
 }
 
