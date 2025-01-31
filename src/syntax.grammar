@@ -1,118 +1,149 @@
-@top Program { statement* }
+@top Program { (newLineDelimitedStatementOrNewline)* statement? }
 
-@skip { whitespace | LineComment }
+@skip { " " | LineComment }
+
+newLineDelimitedStatementOrNewline {
+  newLineDelimitedStatement | newLine
+}
+
+newLine { "\n" }
+newLineDelimitedStatement { statement newLine }
 
 statement {
+  LogStatement |
   FunctionDefinition |
-  VariableDefinition |
-  VariableReassignment |
+  SetVariableStatement |
+  ChangeVariableStatement |
   RepeatStatement |
   RepeatUntilGameOverStatement |
+  RepeatForeverStatement |
   IfStatement |
   ReturnStatement |
-  ExpressionStatement { expression }
+  CallStatement { CallExpression }
+}
+LogStatement {
+  keyword<"log"> Expression 
 }
 
 FunctionDefinition {
-  keyword<"function"> Identifier Body |
-  keyword<"function"> Identifier keyword<"with"> argumentList Body
+  keyword<"function"> Identifier body |
+  keyword<"function"> Identifier keyword<"with"> parameterList body
 }
-
-argumentList {
+parameterList {
   Identifier ("," Identifier)*
 }
+
+SetVariableStatement {
+  keyword<"set"> Identifier keyword<"to"> Expression
+}
+
+ChangeVariableStatement {
+  keyword<"change"> Identifier keyword<"to"> Expression
+}
+
 RepeatStatement {
-  keyword<"repeat"> expression keyword<"times"> Body
+  keyword<"repeat"> Expression keyword<"times"> body
 }
 
 RepeatUntilGameOverStatement {
-  keyword<"repeat_until_game_over"> Body
+  keyword<"repeat_until_game_over"> body
+}
+
+RepeatForeverStatement {
+  keyword<"repeat_forever"> body
 }
 
 IfStatement {
-  keyword<"if"> expression keyword<"do"> statement* ElseStatement | 
-  keyword<"if"> expression Body
+  // keyword<"if"> Expression keyword<"do"> statement* ElseStatement | 
+  keyword<"if"> Expression (ifElsebody | body)
 }
 
-ElseStatement {
-  keyword<"else"> Body
+ifElsebody {
+  keyword<"do"> newLine newLineDelimitedStatementOrNewline* keyword<"else"> (body | IfStatement)
 }
 
-Body {
-  keyword<"do"> statement* keyword<"end">
+body {
+  keyword<"do"> newLine newLineDelimitedStatementOrNewline* keyword<"end">
 }
 
 ReturnStatement {
-  keyword<"return"> (expression)
+  keyword<"return"> (Expression)
 }
 
-VariableDefinition {
-  keyword<"set"> Identifier keyword<"to"> expression
-}
-VariableReassignment {
-  keyword<"change"> Identifier keyword<"to"> expression
+Expression {
+  binaryExpression |
+  PrimaryExpression
 }
 
-PrimaryExpression {
-  Identifier |
-  Boolean |
-  String |
-  number |
-  "(" expression ")"
+
+GroupingExpression { 
+  "(" Expression ")"
+}
+
+binaryExpression {
+  EqualityExpression |
+  RelationalExpression
 }
 
 RelationalExpression {
-  PrimaryExpression keyword<">"> PrimaryExpression |
-  PrimaryExpression keyword<"<"> PrimaryExpression |
-  PrimaryExpression keyword<">="> PrimaryExpression |
-  PrimaryExpression keyword<"<="> PrimaryExpression
+  PrimaryExpression keyword<"and"> Expression |
+  PrimaryExpression keyword<"or"> Expression |
+  PrimaryExpression CompareOp<">"> Expression |
+  PrimaryExpression CompareOp<"<"> Expression |
+  PrimaryExpression CompareOp<">="> Expression |
+  PrimaryExpression CompareOp<"<="> Expression |
+  PrimaryExpression ArithOp<"*"> Expression | 
+  PrimaryExpression ArithOp<"+"> Expression | 
+  PrimaryExpression divide Expression | 
+  PrimaryExpression ArithOp<"-"> Expression | 
+  PrimaryExpression ArithOp<"%"> Expression 
 }
 
 EqualityExpression {
   PrimaryExpression keyword<"is"> PrimaryExpression |
   PrimaryExpression keyword<"equals"> PrimaryExpression |
-  PrimaryExpression keyword<"=="> PrimaryExpression
+  PrimaryExpression CompareOp<"==" | "!="> PrimaryExpression
 }
 
-BinaryExpression {
-  EqualityExpression |
-  RelationalExpression
+PrimaryExpression {
+  GroupingExpression |
+  CallExpression |
+  Identifier |
+  Boolean |
+  String |
+  number
 }
 
-expression {
-  BinaryExpression |
-  PrimaryExpression
+ArithOp<expr> { expr }
+CompareOp<expr> { expr }
+
+CallExpression {
+  Identifier "(" argumentList? ")"
+}
+argumentList {
+  Expression ("," Expression)*
 }
 
 number { Integer | Floating }
 
 keyword<term> { @specialize[@name={term}]<Identifier, term> }
-/*Keyword {
-  keyword<"function"> |
-  keyword<"do"> |
-  keyword<"with"> |
-  keyword<"return"> |
-  keyword<"set"> |
-  keyword<"to"> |
-  keyword<"change"> |
-  keyword<"end">
-}*/
 
 @tokens {
   Identifier { letter $[_a-zA-Z0-9]* }
   String { '"' (!["\\] | "\\" _)* '"' }
   Boolean { "true" | "false" }
   LineComment { "//" ![\n]* }
-  whitespace { @whitespace+ }
 
   letter { @asciiLetter }
   digit { @digit }
+
+  divide[@name=ArithOp] { "/" }
 
   Integer { "-"? digit+ }
   Floating { "-"? digit+ "." digit+ }
 
   @precedence { 
-    Boolean, Identifier, String, Floating, Integer 
+    LineComment,Floating, Integer, divide, Boolean, Identifier, String
   }
 }
 

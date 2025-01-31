@@ -8,28 +8,65 @@
   <body>
     <div id="editor"></div>
     <script type="module">
-            import { EditorView, basicSetup } from "codemirror";
-            import { jikiscript } from "./src/index.ts";
+      import { EditorView, basicSetup } from "codemirror";
+      import { jikiscript, jikiscriptStrict} from "./src/index.ts";
+      import { colorScheme } from "./src/create-theme/colorScheme";
+      import { syntaxTree } from "@codemirror/language";
 
-const doc = `
+      const doc = `
 // A comment
-10 // Postfix comment
+log 10 // Postfix comment
 
 // Numbers
-5 0 3.2 -5 -0 -3.2
+log 5
+log 0 
+log 3.2 
+log -5 
+log -0 
+log -3.2
 
 // Boolean
-true 
-false
+log true 
+log false
 
 // Strings
-""
-"Hello, world!"
-"Hello,\\sworld!"
-"Hello, \\"world\\"!"
+log ""
+log "Hello, world!"
+log "Hello,\\sworld!"
+log "Hello, \\"world\\"!"
 
 // String Concatenation
-"Hello, " + "world!"
+log "Hello, " + "world!"
+
+// parenthesis matching
+log 5 + 3
+log (5 + 3) * 2
+log ((5 + 3))
+log max( (e / f), 5 )
+log max( (e / f), (g - h) )
+log ( (a + b) * (5) )
+log (( (a + b) * (c - d) ) + 5 )
+log 2 * (a + b) * (c - d)
+log 2 * ( (a + b) * (c - d) )
+log 2 * (( (a + b) * (c - d) ) + 5 )
+log 2 * (( (a + b) * (c - d) ) + max())
+log 2 * (( (a + b) * (c - d) ) + max( (e / f), (g - h) ))
+
+// Comparisons
+log 5 > 3
+log 5 < 3
+log 5 >= 3
+log 5 <= 3
+log 5 == 3
+log 5 != 3
+
+// Logical operators
+log true and false
+log true or false
+
+// Function calls
+something()
+something(1, true, "foo")
 
 // Variable setting
 set x to 5
@@ -79,13 +116,60 @@ end
 function foobar with arg1, arg2 do
   return (10 + 20)
 end
-`
+`;
 
-            new EditorView({
-              doc: doc,
-              extensions: [basicSetup, jikiscript()],
-              parent: document.querySelector("#editor"),
-            });
+      const view = new EditorView({
+        doc: doc,
+        extensions: [
+          basicSetup,
+          jikiscript(),
+          colorScheme,
+          EditorView.updateListener.of((update) => {
+            if (update.docChanged) {
+              try {
+                const strictTree = jikiscriptStrict.parser.parse(
+                  update.state.doc.toString()
+                );
+                console.log("Strict parsing successful:", strictTree);
+              } catch (error) {
+                console.error("Strict parsing error:", error);
+              }
+              // logSyntaxTree(view);
+              // printSyntaxTree(update.state);
+              // console.log(syntaxTree(update.state));
+            }
+          }),
+        ],
+        parent: document.querySelector("#editor"),
+      });
+
+      function posToLineCol(state, pos) {
+        const line = state.doc.lineAt(pos);
+        return `L${line.number}:C${pos - line.from + 1}`;
+      }
+
+      function printSyntaxTree(state) {
+        const tree = syntaxTree(state);
+        let output = "";
+
+        tree.cursor().iterate((node) => {
+          const indent = "  ".repeat(node.depth);
+          const from = posToLineCol(state, node.from);
+          const to = posToLineCol(state, node.to);
+          output += `${indent}- ${node.name} [${from} -> ${to}]\n`;
+        });
+
+        console.log(output);
+      }
+
+      function logSyntaxTree(view) {
+        const cursor = syntaxTree(view.state).cursor();
+        do {
+          console.log("Node:", cursor.name, "from:", cursor.from, "to:", cursor.to);
+        } while (cursor.next());
+      }
+
+      // logSyntaxTree(view);
     </script>
   </body>
 </html>
