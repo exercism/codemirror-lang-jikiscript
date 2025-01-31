@@ -11,6 +11,7 @@
       import { EditorView, basicSetup } from "codemirror";
       import { jikiscript } from "./src/index.ts";
       import { colorScheme } from "./src/create-theme/colorScheme";
+      import { syntaxTree } from "@codemirror/language";
 
       const doc = `
 // A comment
@@ -110,11 +111,29 @@ function foobar with arg1, arg2 do
 end
 `;
 
-      new EditorView({
+      const view = new EditorView({
         doc: doc,
-        extensions: [basicSetup, jikiscript(), colorScheme],
+        extensions: [
+          basicSetup,
+          jikiscript(),
+          colorScheme,
+          EditorView.updateListener.of((update) => {
+            if (update.docChanged) {
+              console.log(syntaxTree(update.state));
+            }
+          }),
+        ],
         parent: document.querySelector("#editor"),
       });
+
+      //   function logSyntaxTree(view) {
+      //   const cursor = syntaxTree(view.state).cursor();
+      //   do {
+      //     console.log("Node:", cursor.name, "from:", cursor.from, "to:", cursor.to);
+      //   } while (cursor.next());
+      // }
+
+      // logSyntaxTree(view);
     </script>
   </body>
 </html>
