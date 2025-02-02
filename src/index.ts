@@ -29,8 +29,8 @@ export const jikiscriptLanguage = LRLanguage.define({
         "> < >= <= ==": t.operator,
         Identifier: t.variableName,
         ArgumentList: t.variableName,
-        Paren: t.paren,
-        Bracket: t.squareBracket
+        "( )": t.paren,
+        "[ ]": t.squareBracket
       }),
 
       indentNodeProp.add({
@@ -48,9 +48,10 @@ export const jikiscriptLanguage = LRLanguage.define({
         IfStatement: foldInside, // Allow folding of function blocks
       }),
     ],
-  }),
+  })
   // languageData: {
   //   closeBrackets: { brackets: ["(", "[", "do", '"'] },
+  // }
   //   commentTokens: { line: "//" },
   // },
 });

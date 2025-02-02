@@ -77,7 +77,7 @@ Expression {
 
 
 GroupingExpression { 
-  Paren<"("> Expression Paren<")">
+  "(" Expression ")"
 }
 
 binaryExpression {
@@ -120,7 +120,7 @@ Paren<expr> { expr }
 Bracket<expr> { expr }
 
 CallExpression {
-  Identifier Paren<"("> argumentList? Paren<")">
+  Identifier "(" argumentList? ")"
 }
 argumentList {
   Expression ("," Expression)*
@@ -143,6 +143,9 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
 
   Integer { "-"? digit+ }
   Floating { "-"? digit+ "." digit+ }
+
+  "(" ")"
+  "[" "]"
 
   @precedence { 
     LineComment,Floating, Integer, divide, Boolean, Identifier, String
