@@ -77,7 +77,7 @@ Expression {
 
 
 GroupingExpression { 
-  "(" Expression ")"
+  Paren<"("> Expression Paren<")">
 }
 
 binaryExpression {
@@ -116,9 +116,11 @@ PrimaryExpression {
 
 ArithOp<expr> { expr }
 CompareOp<expr> { expr }
+Paren<expr> { expr }
+Bracket<expr> { expr }
 
 CallExpression {
-  Identifier "(" argumentList? ")"
+  Identifier Paren<"("> argumentList? Paren<")">
 }
 argumentList {
   Expression ("," Expression)*

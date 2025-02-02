@@ -18,19 +18,19 @@ export const jikiscriptLanguage = LRLanguage.define({
         LineComment: t.lineComment,
         Integer: t.number,
         Floating: t.float,
-        "repeat repeat_until_game_over repeat_forever": t.controlKeyword,
+        "repeat times repeat_until_game_over repeat_forever": t.controlKeyword,
         "if else do end log": t.controlKeyword,
         "function set change": t.definitionKeyword,
         "with to": t.keyword,
-        "and or": t.logicOperator,
+        "and or is equals": t.logicOperator,
         "return": t.keyword,
         ArithOp: t.arithmeticOperator,
         CompareOp: t.compareOperator,
         "> < >= <= ==": t.operator,
         Identifier: t.variableName,
         ArgumentList: t.variableName,
-        "( )": t.paren,
-        "[ ]": t.squareBracket
+        Paren: t.paren,
+        Bracket: t.squareBracket
       }),
 
       indentNodeProp.add({
