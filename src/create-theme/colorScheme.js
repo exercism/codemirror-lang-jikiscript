@@ -15,81 +15,52 @@ export const colorScheme = createTheme({
   },
   styles: [
     {
+      tag: [t.comment, t.lineComment],
+      color: '#818B94',
+      fontStyle: 'italic',
+    },
+    {
       tag: t.string,
-      color: '#AA0000',
-    },
-    {
-      tag: t.bool,
-      color: '#00AA00',
-    },
-    {
-      tag: t.lineComment,
-      color: '#cccccc',
-    },
-    {
-      tag: t.number,
-      color: '#AA0000',
-      fontStyle: 'italic',
-    },
-    {
-      tag: t.float,
-      color: '#00AA00',
-      fontStyle: 'italic',
+      color: '#3E8A00',
     },
     {
       tag: t.controlKeyword,
-      color: '#0000AA',
-      fontStyle: 'italic',
-      fontWeight: 'bold',
+      color: '#0080FF',
+      fontWeight: '500',
+      fontStyle: 'italic'
     },
     {
       tag: t.definitionKeyword,
-      color: '#AAAA00',
-      fontWeight: 'bold',
+      color: '#0080FF',
+      fontWeight: '500',
+      fontStyle: 'italic'
     },
     {
       tag: t.keyword,
-      color: '#AA00AA',
-      fontWeight: 'bold',
+      color: '#0080FF',
+      fontWeight: '500',
+      fontStyle: 'italic'
     },
     {
-      tag: t.logicOperator,
-      color: '#00AAAA',
-        border: '1px solid #ff0000',
+      tag: [t.paren, t.squareBracket],
+      color: '#888',
     },
-      {
-        tag: t.arithmeticOperator,
-        color: '#AAAA00',
-      fontStyle: 'italic',
-        border: '1px solid #ff0000',
-      },
-      {
-        tag: t.operator,
-        color: '#AA00AA',
-      fontStyle: 'italic',
-        border: '1px solid #ff0000',
-      },
-      {
-        tag: t.variableName,
-        color: '#00AAAA',
-      fontStyle: 'italic',
-      },
-      {
-        tag: t.paren,
-        color: '#00ff00',
-        border: '1px solid #0000ff',
-      },
-      {
-        tag: t.squareBracket,
-        color: '#ff0000',
-        border: '1px solid #0000ff',
-      },
-      {
-        tag: t.compareOperator,
-        color: '#0000AA',
-        border: '1px solid #ff0000',
-      },
-      
-
+    {
+      tag: [t.bool, t.number, t.float],
+      color: '#F33636',
+    },
+    {
+      tag: [
+        t.logicOperator,
+        t.arithmeticOperator,
+        t.operator,
+        t.compareOperator,
+      ],
+      color: '#0080FF',
+    },
+    {
+      tag: t.variableName,
+      color: '#7A009F',
+    },
   ],
 })

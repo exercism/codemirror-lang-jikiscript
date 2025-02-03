@@ -14,9 +14,11 @@ statement {
   FunctionDefinition |
   SetVariableStatement |
   ChangeVariableStatement |
+  ChangeListElementStatement |
   RepeatStatement |
   RepeatUntilGameOverStatement |
   RepeatForeverStatement |
+  ForeachStatement |
   IfStatement |
   ReturnStatement |
   CallStatement { CallExpression }
@@ -41,8 +43,16 @@ ChangeVariableStatement {
   keyword<"change"> Identifier keyword<"to"> Expression
 }
 
+ChangeListElementStatement {
+  keyword<"change"> Identifier ListExpression keyword<"to"> Expression
+}
+
 RepeatStatement {
   keyword<"repeat"> Expression keyword<"times"> body
+}
+
+ForeachStatement {
+  keyword<"for"> keyword<"each"> Identifier keyword<"in"> Expression body
 }
 
 RepeatUntilGameOverStatement {
@@ -108,6 +118,7 @@ EqualityExpression {
 PrimaryExpression {
   GroupingExpression |
   CallExpression |
+  ListExpression |
   Identifier |
   Boolean |
   String |
@@ -124,6 +135,10 @@ CallExpression {
 }
 argumentList {
   Expression ("," Expression)*
+}
+
+ListExpression {
+  "[" (Expression ("," Expression)*)? "]"
 }
 
 number { Integer | Floating }
@@ -146,6 +161,7 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
 
   "(" ")"
   "[" "]"
+  ","
 
   @precedence { 
     LineComment,Floating, Integer, divide, Boolean, Identifier, String
