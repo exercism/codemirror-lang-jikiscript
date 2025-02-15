@@ -97,7 +97,7 @@ binaryExpression {
 }
 
 UnaryExpression {
-  keyword<"not"> Expression
+  keyword<"not"> Expression |
   "!" Expression
 }
 
