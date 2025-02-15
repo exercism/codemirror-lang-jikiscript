@@ -82,6 +82,7 @@ ReturnStatement {
 
 Expression {
   binaryExpression |
+  UnaryExpression |
   PrimaryExpression
 }
 
@@ -93,6 +94,11 @@ GroupingExpression {
 binaryExpression {
   EqualityExpression |
   RelationalExpression
+}
+
+UnaryExpression {
+  keyword<"not"> Expression
+  "!" Expression
 }
 
 RelationalExpression {
@@ -159,6 +165,7 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
   Integer { "-"? digit+ }
   Floating { "-"? digit+ "." digit+ }
 
+  "!"
   "(" ")"
   "[" "]"
   ","
