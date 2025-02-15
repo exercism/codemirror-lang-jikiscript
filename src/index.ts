@@ -28,6 +28,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         ArithOp: t.arithmeticOperator,
         CompareOp: t.compareOperator,
         "> < >= <= ==": t.operator,
+        bangOperator: t.operator,
         UnaryExpression: t.operator,
         Identifier: t.variableName,
         ArgumentList: t.variableName,

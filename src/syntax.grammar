@@ -98,7 +98,7 @@ binaryExpression {
 
 UnaryExpression {
   keyword<"not"> Expression |
-  "!" Expression
+  bangOperator Expression
 }
 
 RelationalExpression {
@@ -165,7 +165,8 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
   Integer { "-"? digit+ }
   Floating { "-"? digit+ "." digit+ }
 
-  "!"
+  bangOperator { "!" }
+
   "(" ")"
   "[" "]"
   ","
