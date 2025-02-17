@@ -21,6 +21,9 @@ statement {
   ForeachStatement |
   IfStatement |
   ReturnStatement |
+  ContinueStatement |
+  NextStatement |
+  BreakStatement |
   CallStatement { CallExpression }
 }
 LogStatement {
@@ -65,6 +68,16 @@ RepeatForeverStatement {
 
 IndexedByComponent {
   keyword<"indexed"> keyword<"by"> Identifier
+}
+
+ContinueStatement {
+  keyword<"continue">
+}
+NextStatement {
+  keyword<"next">
+}
+BreakStatement {
+  keyword<"break">
 }
 
 IfStatement {

@@ -22,6 +22,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         "if else do end log": t.controlKeyword,
         "for each in": t.controlKeyword,
         "with to indexed by": t.controlKeyword,
+        "next break continue": t.controlKeyword,
         "return": t.controlKeyword,
         "function set change": t.definitionKeyword,
         "and or is equals": t.logicOperator,
