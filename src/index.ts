@@ -21,7 +21,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         "repeat times repeat_until_game_over repeat_forever": t.controlKeyword,
         "if else do end log": t.controlKeyword,
         "for each in": t.controlKeyword,
-        "with to": t.controlKeyword,
+        "with to indexed by": t.controlKeyword,
         "return": t.controlKeyword,
         "function set change": t.definitionKeyword,
         "and or is equals": t.logicOperator,

@@ -1,6 +1,6 @@
 {
   "name": "@exercism/codemirror-lang-jikiscript",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "JikiScript language support for CodeMirror",
   "scripts": {
     "prepare": "bun run rollup -c",

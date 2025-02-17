@@ -48,19 +48,23 @@ ChangeListElementStatement {
 }
 
 RepeatStatement {
-  keyword<"repeat"> Expression keyword<"times"> body
+  keyword<"repeat"> Expression keyword<"times"> IndexedByComponent? body
 }
 
 ForeachStatement {
-  keyword<"for"> keyword<"each"> Identifier keyword<"in"> Expression body
+  keyword<"for"> keyword<"each"> Identifier keyword<"in"> Expression IndexedByComponent? body
 }
 
 RepeatUntilGameOverStatement {
-  keyword<"repeat_until_game_over"> body
+  keyword<"repeat_until_game_over"> IndexedByComponent? body
 }
 
 RepeatForeverStatement {
-  keyword<"repeat_forever"> body
+  keyword<"repeat_forever"> IndexedByComponent? body
+}
+
+IndexedByComponent {
+  keyword<"indexed"> keyword<"by"> Identifier
 }
 
 IfStatement {
