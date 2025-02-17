@@ -150,8 +150,6 @@ PrimaryExpression {
 
 ArithOp<expr> { expr }
 CompareOp<expr> { expr }
-Paren<expr> { expr }
-Bracket<expr> { expr }
 
 CallExpression {
   Identifier "(" argumentList? ")"
