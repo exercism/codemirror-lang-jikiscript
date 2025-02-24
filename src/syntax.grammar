@@ -47,7 +47,7 @@ ChangeVariableStatement {
 }
 
 ChangeListElementStatement {
-  keyword<"change"> Identifier ListExpression keyword<"to"> Expression
+  keyword<"change"> Identifier IndexExpression keyword<"to"> Expression
 }
 
 RepeatStatement {
@@ -55,7 +55,7 @@ RepeatStatement {
 }
 
 ForeachStatement {
-  keyword<"for"> keyword<"each"> Identifier keyword<"in"> Expression IndexedByComponent? body
+  keyword<"for"> keyword<"each"> Identifier ("," Identifier)? keyword<"in"> Expression IndexedByComponent? body
 }
 
 RepeatUntilGameOverStatement {
@@ -100,7 +100,7 @@ ReturnStatement {
 Expression {
   binaryExpression |
   UnaryExpression |
-  PrimaryExpression
+  ( PrimaryExpression IndexExpression* )
 }
 
 
@@ -160,12 +160,17 @@ argumentList {
   Expression ("," Expression)*
 }
 
+IndexExpression {
+  "[" Expression "]"
+}
 ListExpression {
-  "[" (Expression ("," Expression)*)? "]"
+  IndexExpression | 
+  "[" (Expression ("," Expression)+)? "]"
 }
 DictionaryExpression {
   "{" "\n"? (String ":" Expression ("," "\n"? String ":" Expression)*)? "\n"? "}"
 }
+
 InstantiateExpression {
   keyword<"new"> ClassName "(" argumentList? ")"
 }
