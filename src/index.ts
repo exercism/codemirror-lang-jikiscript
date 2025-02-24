@@ -21,6 +21,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         "repeat times repeat_until_game_over repeat_forever": t.controlKeyword,
         "if else do end log": t.controlKeyword,
         "for each in": t.controlKeyword,
+        "new": t.controlKeyword,
         "with to indexed by": t.controlKeyword,
         "next break continue": t.controlKeyword,
         "return": t.controlKeyword,
@@ -32,6 +33,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         bangOperator: t.operator,
         UnaryExpression: t.operator,
         Identifier: t.variableName,
+        ClassName: t.className,
         ArgumentList: t.variableName,
         "( ) ,": t.paren,
         "[ ]": t.squareBracket
