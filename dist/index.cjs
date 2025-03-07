@@ -70,7 +70,6 @@ const jikiscriptLanguage = language.LRLanguage.define({
             }),
             language.foldNodeProp.add({
                 FunctionDefinition: language.foldInside, // Allow folding of function blocks
-                IfStatement: language.foldInside, // Allow folding of function blocks
             }),
         ],
     })

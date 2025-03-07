@@ -51,7 +51,6 @@ export const jikiscriptLanguage = LRLanguage.define({
 
       foldNodeProp.add({
         FunctionDefinition: foldInside, // Allow folding of function blocks
-        IfStatement: foldInside, // Allow folding of function blocks
       }),
     ],
   })
