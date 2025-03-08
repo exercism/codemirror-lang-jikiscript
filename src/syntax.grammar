@@ -30,9 +30,11 @@ LogStatement {
   keyword<"log"> Expression 
 }
 
+FunctionName { myIdentifier | identifier }
+
 FunctionDefinition {
-  keyword<"function"> Identifier body |
-  keyword<"function"> Identifier keyword<"with"> parameterList body
+  keyword<"function"> FunctionName body |
+  keyword<"function"> FunctionName keyword<"with"> parameterList body
 }
 parameterList {
   Identifier ("," Identifier)*
@@ -103,7 +105,6 @@ Expression {
   ( PrimaryExpression IndexExpression* )
 }
 
-
 GroupingExpression { 
   "(" Expression ")"
 }
@@ -154,7 +155,7 @@ ArithOp<expr> { expr }
 CompareOp<expr> { expr }
 
 CallExpression {
-  Identifier "(" argumentList? ")"
+  (FunctionName) "(" argumentList? ")"
 }
 argumentList {
   Expression ("," Expression)*
@@ -177,10 +178,13 @@ InstantiateExpression {
 
 number { Integer | Floating }
 
-keyword<term> { @specialize[@name={term}]<Identifier, term> }
+keyword<term> { @specialize[@name={term}]<identifier, term> }
+
+Identifier { identifier }
 
 @tokens {
-  Identifier { $[a-z] $[_a-zA-Z0-9]* }
+  myIdentifier { "my#" $[a-z] $[_a-zA-Z0-9]* }
+  identifier { $[a-z] $[_a-zA-Z0-9]* }
   ClassName { $[A-Z] $[_a-zA-Z0-9]* }
   String { '"' (!["\\] | "\\" _)* '"' }
   Boolean { "true" | "false" }
@@ -201,7 +205,7 @@ keyword<term> { @specialize[@name={term}]<Identifier, term> }
   ","
 
   @precedence { 
-    LineComment,Floating, Integer, divide, Boolean, Identifier, String
+    LineComment,Floating, Integer, divide, Boolean, myIdentifier, identifier, String
   }
 }
 

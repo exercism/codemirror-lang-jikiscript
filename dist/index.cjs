@@ -68,9 +68,9 @@ const jikiscriptLanguage = language.LRLanguage.define({
                 statement: addIndent, // Indent for nested statements
                 EndStatement: removeIndent, // Reset for end statements
             }),
-            language.foldNodeProp.add({
-                FunctionDefinition: language.foldInside, // Allow folding of function blocks
-            }),
+            // foldNodeProp.add({
+            // FunctionDefinition: foldInside, // Allow folding of function blocks
+            // }),
         ],
     })
     // languageData: {

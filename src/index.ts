@@ -33,6 +33,7 @@ export const jikiscriptLanguage = LRLanguage.define({
         bangOperator: t.operator,
         UnaryExpression: t.operator,
         Identifier: t.variableName,
+        FunctionName: t.function(t.variableName),
         ClassName: t.className,
         ArgumentList: t.variableName,
         "( ) ,": t.paren,
