@@ -17,6 +17,10 @@
 // Instantiation
 log new Foobar()
 log new Foobar(1, true, ["a"])
+log foo.bar
+log foo.bar()
+log foo.bar(2, true)
+change foo.bar to 5
 
 // A comment
 log 10 // Postfix comment
@@ -111,7 +115,6 @@ for each key, value in {"a": 1} do
 end
 
 log {"a": 1, "b": 2, "c": 3}["a"]["b"]
-
 // List things
 log []
 log [1, "foo", true]
@@ -163,6 +166,9 @@ end
 if something is true do
 else if something is false do
   something()
+end
+
+if letter == " " or letter == "-" do
 end
 
 // Function definitions

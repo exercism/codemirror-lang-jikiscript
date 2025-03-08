@@ -15,6 +15,7 @@ statement {
   SetVariableStatement |
   ChangeVariableStatement |
   ChangeListElementStatement |
+  ChangePropertyStatement |
   RepeatStatement |
   RepeatUntilGameOverStatement |
   RepeatForeverStatement |
@@ -51,6 +52,9 @@ ChangeVariableStatement {
 ChangeListElementStatement {
   keyword<"change"> Identifier IndexExpression keyword<"to"> Expression
 }
+ChangePropertyStatement {
+  keyword<"change"> PropertyExpression keyword<"to"> Expression
+}
 
 RepeatStatement {
   keyword<"repeat"> Expression keyword<"times"> IndexedByComponent? body
@@ -83,7 +87,7 @@ BreakStatement {
 }
 
 IfStatement {
-  // keyword<"if"> Expression keyword<"do"> statement* ElseStatement | 
+  // keyddword<"if"> Expression keyword<"do"> statement* ElseStatement | 
   keyword<"if"> Expression (ifElsebody | body)
 }
 
@@ -120,8 +124,8 @@ UnaryExpression {
 }
 
 RelationalExpression {
-  PrimaryExpression keyword<"and"> Expression |
-  PrimaryExpression keyword<"or"> Expression |
+  (PrimaryExpression | EqualityExpression) keyword<"and"> Expression |
+  (PrimaryExpression | EqualityExpression) keyword<"or"> Expression |
   PrimaryExpression CompareOp<">"> Expression |
   PrimaryExpression CompareOp<"<"> Expression |
   PrimaryExpression CompareOp<">="> Expression |
@@ -143,6 +147,8 @@ PrimaryExpression {
   GroupingExpression |
   InstantiateExpression |
   CallExpression |
+  MethodExpression |
+  PropertyExpression |
   ListExpression |
   DictionaryExpression |
   Identifier |
@@ -153,6 +159,13 @@ PrimaryExpression {
 
 ArithOp<expr> { expr }
 CompareOp<expr> { expr }
+
+MethodExpression {
+  PropertyExpression "(" argumentList? ")"
+}
+PropertyExpression {
+  Identifier "." FunctionName
+}
 
 CallExpression {
   (FunctionName) "(" argumentList? ")"
