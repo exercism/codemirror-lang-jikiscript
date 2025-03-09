@@ -106,7 +106,7 @@ ReturnStatement {
 Expression {
   binaryExpression |
   UnaryExpression |
-  ( PrimaryExpression IndexExpression* )
+  PrimaryExpression
 }
 
 GroupingExpression { 
@@ -144,6 +144,7 @@ EqualityExpression {
 }
 
 PrimaryExpression {
+  (
   GroupingExpression |
   InstantiateExpression |
   CallExpression |
@@ -154,7 +155,7 @@ PrimaryExpression {
   Identifier |
   Boolean |
   String |
-  number
+  number) IndexExpression*
 }
 
 ArithOp<expr> { expr }
@@ -179,7 +180,7 @@ IndexExpression {
 }
 ListExpression {
   IndexExpression | 
-  "[" (Expression ("," Expression)+)? "]"
+  "[" "\n"? (Expression ("," "\n"? Expression)+)? "\n"? "]"
 }
 DictionaryExpression {
   "{" "\n"? (String ":" Expression ("," "\n"? String ":" Expression)*)? "\n"? "}"

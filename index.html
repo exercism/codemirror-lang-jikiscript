@@ -118,10 +118,19 @@ log {"a": 1, "b": 2, "c": 3}["a"]["b"]
 // List things
 log []
 log [1, "foo", true]
+log [
+  1,
+  "foo",
+  true
+]
+log [1,
+  "foo",
+  true]
 
 set list to [1, "foo", true]
 change list[4] to 3
 log list[4]
+log list[4] == foo["bar"]
 
 for each item in [1, "a", true] do
  something()
